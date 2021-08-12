@@ -120,7 +120,7 @@ main {
   background-position: center center;
   display: flex;
   justify-content: space-between;
-  height: 500px;
+  height: 75vh;
 }
 
 .startingImg {

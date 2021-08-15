@@ -32,7 +32,7 @@ const Landing = () => {
 	const btns = displayBtn && (
 		<>
 				<div className="leftBox" onMouseOver={() => setImgBackground("leftImg")} onMouseOut={() => removeImgBackground("leftImg")}>
-					<Link className="btn-welcome" to="signup">Inscription</Link>
+					<Link className="btn-welcome" to="/signup">Inscription</Link>
 				</div>
 				<div className="rightBox" onMouseOver={() => setImgBackground("rightImg")} onMouseOut={() => removeImgBackground("rightImg")}>
 					<Link className="btn-welcome" to="login">Connexion</Link>

@@ -804,6 +804,28 @@ input:checked+.slider:before {
 }
 /* END MODAL */
 
+
+/* dan css  */
+
+.back-to-home{
+  height: 30px;
+  padding: 9px;
+  text-decoration: none;
+  margin: 10px auto;
+  color: white;
+  background: red;
+  line-height: 30px;
+  border-radius: 5px;
+
+}
+
+.back-to-home:hover{
+  background: white;
+  color: red;
+  border: 1px solid red;
+}
+
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 540px) {
   .container img {

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FirebaseContext } from '../Firebase/index';
 
-const Signup = () => {
+const Signup = (props) => {
 
 	const data = {
 		pseudo: "",
@@ -16,21 +16,22 @@ const Signup = () => {
 	const firebase = useContext(FirebaseContext);
 
 	// definition des variables d'etat
-	const [loginData, setLoginData] = useState(data);
+	const [sigupData, setSigupData] = useState(data);
 	const [error, setError] = useState("");
 
 
 	// definition des methodes
 	const handleChange = (event) => {
-		setLoginData({...loginData, [event.target.id]: event.target.value})
+		setSigupData({...sigupData, [event.target.id]: event.target.value})
 	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const { email, password } = loginData;
+		const { email, password } = sigupData;
 		firebase.signupUser(email, password)
 		.then(user => {
-			setLoginData({...data});
+			setSigupData({...data});
+			props.history.push("/welcome");
 		})
 		.catch(error => {
 			setError(error);
@@ -39,7 +40,7 @@ const Signup = () => {
 
 	const errorMsg = error !== "" && <span>{ error.message }</span>
 
-	const {pseudo, email, password, confirmPassword} = loginData;
+	const {pseudo, email, password, confirmPassword} = sigupData;
 
 	const btnValidForm = pseudo === "" || email === "" || password === "" || password !== confirmPassword 
 	? <button disabled>Inscription</button> : <button>Inscription</button> 

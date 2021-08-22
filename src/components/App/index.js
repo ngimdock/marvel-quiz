@@ -25,44 +25,18 @@ function App() {
       <Header />
 
       <Switch>
-          <Route path="/" exact>
-            <Landing />
-          </Route>
+          <Route path="/" exact component={Landing} />
+          <Route path="/welcome" component={Welcome} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
 
-          <Route path="/welcome">
-            <Welcome />
-          </Route>
-
-          <Route path="/login">
-            <Login />
-          </Route>
-
-          <Router path="/signup" >
-            <Signup />
-          </Router>
-
-          <Route>
-            <ErrorPage />
-          </Route>
+          <Route component={ErrorPage} />
       </Switch>
 
       <Footer />
 
     </Router>
   );
-}
-
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 

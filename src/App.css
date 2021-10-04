@@ -839,6 +839,10 @@ input:checked+.slider:before {
   }
 }
 
+#simpleLinkSignup{
+  display: block;
+}
+
 
 @media all and (max-width: 850px) {
   .welcomePage {

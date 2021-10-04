@@ -61,10 +61,10 @@ const Login = (props) => {
 
 				<div className="formBoxRight">
 					<div className="formContent">
-
+					
 						{ errorMsg }
 
-						<h2>Connection</h2>
+						<h2>Connexion</h2>
 						<form onSubmit={ handleSubmit }>
 							<div className="inputBox">
 								<input  type="email" id="email" autoComplete="off" required value={email} onChange={handleChange} />
@@ -80,7 +80,9 @@ const Login = (props) => {
 						</form>
 
 						<div className="linkContainer">
-							<Link className="simpleLink" to="/signup">Nouveau sur MARVEL quiz ? inscrivez vous maintenant</Link>
+							<Link className="simpleLink" to="/signup" id="simpleLinkSignup">Nouveau sur MARVEL quiz ? inscrivez vous maintenant</Link>
+							<Link className="simpleLink" to="/forgetpassword">mot de pass oublier ?</Link>
+
 						</div>
 					</div> 
 				</div>

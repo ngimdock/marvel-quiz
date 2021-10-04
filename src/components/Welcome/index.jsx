@@ -14,7 +14,6 @@ const Welcome = (props) => {
 	useEffect(() => {
 
 		let clistener = firebase.auth.onAuthStateChanged(user => {
-			console.log(user);
 			user ? setUserSession(user) : props.history.push("/");
 		})
    

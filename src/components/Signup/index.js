@@ -27,9 +27,15 @@ const Signup = (props) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const { email, password } = sigupData;
+		const { email, password, pseudo } = sigupData;
 		firebase.signupUser(email, password)
-		.then(user => {
+		.then(authUser => {
+			return firebase.user(authUser.user.uid).set({
+				pseudo,
+				email
+			})
+		})
+		.then(() => {
 			setSigupData({...data});
 			props.history.push("/welcome");
 		})

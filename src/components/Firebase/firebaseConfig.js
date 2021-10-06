@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import "firebase/auth";
+import "firebase/firestore";
 
 
 
@@ -16,6 +17,7 @@ class Firebase {
 	constructor(){
 		app.initializeApp(firebaseConfig);
 		this.auth = app.auth();
+		this.db = app.firestore()
 	}
 
 	// inscription
@@ -31,6 +33,9 @@ class Firebase {
 
 	//Recuperer le mot de passe
 	passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
+
+	//firestore
+	user = uid => this.db.doc(`users/${uid}`);
 }
 
 export default Firebase;

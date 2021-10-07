@@ -536,6 +536,7 @@ input:checked+.slider:before {
   cursor: pointer;
   color: var(--white-color);
 }
+
 /* END ANSWER OPTIONS*/
 
 /* QUIZOVER */

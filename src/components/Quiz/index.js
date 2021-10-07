@@ -5,18 +5,34 @@ import ProgressBar from '../ProgressBar'
 
 class Quiz extends Component{
 
-	state ={
-		quizLevel: 0,
-		quizQuestions: [],
+	constructor(props){
+		super(props)
 
-		idQuestion: 0,
-		currentInterogation: {
-			question: "",
-			options: []
+		this.state = {
+			quizLevel: 0,
+			quizQuestions: [],
+
+			idQuestion: 0,
+			currentInterogation: {
+				question: "",
+				options: []
+			},
+			userAnswer: "",
+			disabled: true
 		}
+
+		this.handleSelectAnswer = this.handleSelectAnswer.bind(this)
 	}
 
 	levelName = ["debutant", "confirme", "expert"]
+
+	handleSelectAnswer = (event, selectOption) => {
+
+		this.setState({
+			userAnswer: selectOption,
+			disabled: false
+		})
+	}
 
 	fetchQuestions = level => {
 
@@ -46,17 +62,25 @@ class Quiz extends Component{
 
 	render(){
 		const {  pseudo } = this.props.userData
-		const { question, options } = this.state.currentInterogation
-		const optionsList = options.map((option, index) => <p key={index} className="answerOptions">{option}</p>)
+		const { currentInterogation, disabled, userAnswer } = this.state
+		const optionsList = currentInterogation.options.map((option, index) => {
+			return (
+				<p key={index} 
+					className={`answerOptions ${ userAnswer === option && "selected" }` }
+					onClick={(event) => this.handleSelectAnswer(event, option)} >
+					{ option }
+				</p>
+			)
+		})
 		return (
 			<div>
 				<h2>{ pseudo }</h2>
 				<Level />
 				<ProgressBar />
 
-				<h2>{ question }</h2>
+				<h2>{ currentInterogation.question }</h2>
 				{ optionsList }
-				<button className="btnSubmit">Suivant</button>
+				<button disabled={disabled} className="btnSubmit">Suivant</button>
 			</div>
 		);
 	}

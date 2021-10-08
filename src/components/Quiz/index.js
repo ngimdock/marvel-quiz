@@ -12,7 +12,8 @@ class Quiz extends Component{
 			quizLevel: 0,
 			quizQuestions: [],
 
-			idQuestion: 0,
+			questionNumber: 0,
+			maxQuestion: 9,
 			currentInterogation: {
 				question: "",
 				options: []
@@ -26,7 +27,8 @@ class Quiz extends Component{
 
 	levelName = ["debutant", "confirme", "expert"]
 
-	handleSelectAnswer = (event, selectOption) => {
+	//handler
+	handleSelectAnswer = (selectOption) => {
 
 		this.setState({
 			userAnswer: selectOption,
@@ -34,6 +36,26 @@ class Quiz extends Component{
 		})
 	}
 
+	validateAnswer = () => {
+		//desactivation du bouton
+		this.setState({
+			disabled: true
+		})
+
+		if(this.state.questionNumber < this.state.maxQuestion){
+			this.setState(prevState => ({
+				questionNumber: prevState.questionNumber + 1
+			}))
+		}else{
+			if(this.state.quizLevel < this.levelName.length){
+				this.setState(prevState => ({
+					quizLevel: prevState.quizLevel + 1
+				}))
+			}
+		}
+	}
+
+	//functions
 	fetchQuestions = level => {
 
 		// extract question without answer 
@@ -43,31 +65,40 @@ class Quiz extends Component{
 			quizQuestions: questions
 		})
 	}
+	// premet de changer la question courante
+	changeCurrentQuestion = () => {
+		const { question, options } = this.state.quizQuestions[this.state.questionNumber]
+		this.setState({
+			currentInterogation: {
+				question,
+				options
+			}
+		})
+	}
 	
+	//live cycle methods
 	componentDidMount = () => {
 		this.fetchQuestions(this.levelName[this.state.quizLevel])
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
 		if(this.state.quizQuestions !== prevState.quizQuestions){
-			const { question, options } = this.state.quizQuestions[this.state.idQuestion]
-			this.setState({
-				currentInterogation: {
-					question,
-					options
-				}
-			})
+			this.changeCurrentQuestion()
+		}
+
+		if(this.state.questionNumber !== prevState.questionNumber && this.state.questionNumber <= this.state.maxQuestion){
+			this.changeCurrentQuestion()
 		}
 	}
 
 	render(){
 		const {  pseudo } = this.props.userData
-		const { currentInterogation, disabled, userAnswer } = this.state
+		const { currentInterogation, disabled, userAnswer, questionNumber, quizLevel} = this.state
 		const optionsList = currentInterogation.options.map((option, index) => {
 			return (
 				<p key={index} 
 					className={`answerOptions ${ userAnswer === option && "selected" }` }
-					onClick={(event) => this.handleSelectAnswer(event, option)} >
+					onClick={() => this.handleSelectAnswer(option)} >
 					{ option }
 				</p>
 			)
@@ -75,12 +106,12 @@ class Quiz extends Component{
 		return (
 			<div>
 				<h2>{ pseudo }</h2>
-				<Level />
-				<ProgressBar />
+				<Level level={this.levelName[quizLevel]} />
+				<ProgressBar questionNumber={questionNumber + 1} />
 
 				<h2>{ currentInterogation.question }</h2>
 				{ optionsList }
-				<button disabled={disabled} className="btnSubmit">Suivant</button>
+				<button disabled={disabled} className="btnSubmit" onClick={this.validateAnswer}>Suivant</button>
 			</div>
 		);
 	}

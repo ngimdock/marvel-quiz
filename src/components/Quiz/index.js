@@ -1,4 +1,4 @@
-import React, {  Component} from 'react';
+import React, {  Component, createRef } from 'react';
 import QUIZ_QUESTIONS from '../../quizData/questions'
 import Level from '../Level'
 import ProgressBar from '../ProgressBar'
@@ -13,14 +13,18 @@ class Quiz extends Component{
 			quizQuestions: [],
 
 			questionNumber: 0,
-			maxQuestion: 9,
+			maxQuestion: 10,
 			currentInterogation: {
 				question: "",
 				options: []
 			},
 			userAnswer: "",
+			score: 0,
 			disabled: true
 		}
+
+		//references
+		this.quizQuestionsRef = createRef()
 
 		this.handleSelectAnswer = this.handleSelectAnswer.bind(this)
 	}
@@ -37,21 +41,26 @@ class Quiz extends Component{
 	}
 
 	validateAnswer = () => {
-		//desactivation du bouton
-		this.setState({
-			disabled: true
-		})
 
-		if(this.state.questionNumber < this.state.maxQuestion){
-			this.setState(prevState => ({
-				questionNumber: prevState.questionNumber + 1
-			}))
-		}else{
+		//modification de la question ou du level courant
+		if(this.state.questionNumber === this.state.maxQuestion -1){
 			if(this.state.quizLevel < this.levelName.length){
 				this.setState(prevState => ({
 					quizLevel: prevState.quizLevel + 1
 				}))
 			}
+		}else{
+
+			this.setState(prevState => ({
+				questionNumber: prevState.questionNumber + 1
+			}))
+		}
+
+		// modificaton du score
+		if(this.state.userAnswer === this.quizQuestionsRef.current[this.state.questionNumber].answer){
+			this.setState(prevState => ({
+				score: prevState.score + 1
+			}))
 		}
 	}
 
@@ -61,18 +70,11 @@ class Quiz extends Component{
 		// extract question without answer 
 		const questions = QUIZ_QUESTIONS[level].map(({answer, ...obj}) => obj )
 
+		//store question with answer in ref
+		this.quizQuestionsRef.current = QUIZ_QUESTIONS[level]
+
 		this.setState({
 			quizQuestions: questions
-		})
-	}
-	// premet de changer la question courante
-	changeCurrentQuestion = () => {
-		const { question, options } = this.state.quizQuestions[this.state.questionNumber]
-		this.setState({
-			currentInterogation: {
-				question,
-				options
-			}
 		})
 	}
 	
@@ -83,11 +85,25 @@ class Quiz extends Component{
 
 	componentDidUpdate = (prevProps, prevState) => {
 		if(this.state.quizQuestions !== prevState.quizQuestions){
-			this.changeCurrentQuestion()
+			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
+			this.setState({
+				currentInterogation: {
+					question,
+					options
+				}
+			})
 		}
 
-		if(this.state.questionNumber !== prevState.questionNumber && this.state.questionNumber <= this.state.maxQuestion){
-			this.changeCurrentQuestion()
+		if(this.state.questionNumber !== prevState.questionNumber){
+			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
+			this.setState({
+				currentInterogation: {
+					question,
+					options,
+				},
+
+				disabled: true
+			})
 		}
 	}
 

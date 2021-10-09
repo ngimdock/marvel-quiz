@@ -95,7 +95,7 @@ class Quiz extends Component{
 		if(this.state.showWelcomeMsg){
 			toast(`🙂 Bienvenu ${pseudo} et bonne chance`, {
 				position: "top-right",
-				autoClose: 2300,
+				autoClose: 2200,
 				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
@@ -162,7 +162,7 @@ class Quiz extends Component{
 
 	render(){
 		const {  pseudo } = this.props.userData
-		const { currentInterogation, disabled, userAnswer, questionNumber, quizLevel} = this.state
+		const { currentInterogation, disabled, userAnswer, questionNumber, quizLevel, maxQuestion} = this.state
 		const optionsList = currentInterogation.options.map((option, index) => {
 			return (
 				<p key={index} 
@@ -176,11 +176,16 @@ class Quiz extends Component{
 			<div>
 				<h2>Nom: { pseudo }</h2>
 				<Level level={this.levelName[quizLevel]} />
-				<ProgressBar questionNumber={questionNumber + 1} />
+				<ProgressBar 
+					questionNumber={questionNumber}
+					maxQuestion={maxQuestion}
+				 />
 
 				<h2>{ currentInterogation.question }</h2>
 				{ optionsList }
-				<button disabled={disabled} className="btnSubmit" onClick={this.validateAnswer}>Suivant</button>
+				<button disabled={disabled} className="btnSubmit" onClick={this.validateAnswer}>
+					{ questionNumber < maxQuestion - 1 ? "Suivant" : "Termine" }
+				</button>
 			</div>
 		);
 	}

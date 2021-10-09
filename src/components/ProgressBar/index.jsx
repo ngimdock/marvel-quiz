@@ -1,19 +1,30 @@
 import React from 'react'
 
-const ProgressBar = ({ questionNumber }) => {
-	const num = Number(questionNumber  + "0")
+const ProgressBar = ({ questionNumber, maxQuestion }) => {
+
+	const currentQuestion = questionNumber + 1
+
+	// calculate percentage
+	const getPercentage = (maxQuestion, currentQuestion) => {
+		return (100/maxQuestion)*currentQuestion
+	}
+
+	const progression  = getPercentage(maxQuestion, currentQuestion)
+
+	console.log(progression)
+
 	return (
 		<>
 			<div className="percentage">
-				<div className="progressPercent"> Question {questionNumber}/10 </div>
-				<div className="progressPercent"> Progression {questionNumber}0% </div>
+				<div className="progressPercent"> Question {`${currentQuestion}/${maxQuestion}`} </div>
+				<div className="progressPercent"> Progression {`${progression}%`}</div>
 			</div>
 
 			<div className="progressBar">
-				<div className="progressBarChange" style={{width: `${questionNumber}0%`}}></div>
+				<div className="progressBarChange" style={{width: `${progression}%`}}></div>
 			</div>
 		</>
 	)
 }
 
-export default ProgressBar
+export default React.memo(ProgressBar)

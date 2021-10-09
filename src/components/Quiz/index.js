@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import QUIZ_QUESTIONS from '../../quizData/questions'
 import Level from '../Level'
 import ProgressBar from '../ProgressBar'
+import QuizLevelOver from '../quizLevelOver'
 
 toast.configure() // display de welcome notification
 
@@ -26,7 +27,8 @@ class Quiz extends Component{
 			score: 0,
 			disabled: true,
 
-			showWelcomeMsg: true
+			showWelcomeMsg: true,
+			quizLevelEnd: false
 		}
 
 		//references
@@ -55,6 +57,8 @@ class Quiz extends Component{
 					quizLevel: prevState.quizLevel + 1
 				}))
 			}
+
+			this.gameLevelOver()
 		}else{
 
 			this.setState(prevState => ({
@@ -86,6 +90,12 @@ class Quiz extends Component{
 
 		this.setState({
 			quizQuestions: questions
+		})
+	}
+
+	gameLevelOver = () => {
+		this.setState({
+			quizLevelEnd: true
 		})
 	}
 
@@ -162,7 +172,7 @@ class Quiz extends Component{
 
 	render(){
 		const {  pseudo } = this.props.userData
-		const { currentInterogation, disabled, userAnswer, questionNumber, quizLevel, maxQuestion} = this.state
+		const { currentInterogation, disabled, userAnswer, questionNumber, quizLevel, maxQuestion, quizLevelEnd} = this.state
 		const optionsList = currentInterogation.options.map((option, index) => {
 			return (
 				<p key={index} 
@@ -172,7 +182,10 @@ class Quiz extends Component{
 				</p>
 			)
 		})
-		return (
+
+		return quizLevelEnd ? (
+			<QuizLevelOver />
+		) : (
 			<div>
 				<h2>Nom: { pseudo }</h2>
 				<Level level={this.levelName[quizLevel]} />
@@ -187,7 +200,7 @@ class Quiz extends Component{
 					{ questionNumber < maxQuestion - 1 ? "Suivant" : "Termine" }
 				</button>
 			</div>
-		);
+		)
 	}
 	
 };

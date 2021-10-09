@@ -1,7 +1,11 @@
 import React, {  Component, createRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
 import QUIZ_QUESTIONS from '../../quizData/questions'
 import Level from '../Level'
 import ProgressBar from '../ProgressBar'
+
+toast.configure() // display de welcome notification
 
 class Quiz extends Component{
 
@@ -20,7 +24,9 @@ class Quiz extends Component{
 			},
 			userAnswer: "",
 			score: 0,
-			disabled: true
+			disabled: true,
+
+			showWelcomeMsg: true
 		}
 
 		//references
@@ -56,11 +62,16 @@ class Quiz extends Component{
 			}))
 		}
 
-		// modificaton du score
-		if(this.state.userAnswer === this.quizQuestionsRef.current[this.state.questionNumber].answer){
+		// mofification of score
+		const goodAnswer = this.quizQuestionsRef.current[this.state.questionNumber].answer
+		if(this.state.userAnswer === goodAnswer){
 			this.setState(prevState => ({
 				score: prevState.score + 1
 			}))
+
+			this.showPlayNotification("success", '😃 Bravo + 1') // good answer notification 
+		}else{
+			this.showPlayNotification("error", "😟 Raté") // wrong answer notification
 		}
 	}
 
@@ -77,6 +88,39 @@ class Quiz extends Component{
 			quizQuestions: questions
 		})
 	}
+
+	// display the welcome notification
+	showWelcomeNotification = pseudo => {
+
+		if(this.state.showWelcomeMsg){
+			toast(`🙂 Bienvenu ${pseudo} et bonne chance`, {
+				position: "top-right",
+				autoClose: 2300,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+
+			this.setState({
+				showWelcomeMsg: false
+			})
+		}
+
+	}
+
+	showPlayNotification = (type, message) => {
+		toast.[type](message, {
+			position: "top-right",
+			autoClose: 1000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	}
 	
 	//live cycle methods
 	componentDidMount = () => {
@@ -84,6 +128,8 @@ class Quiz extends Component{
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
+
+		// when the quiz question are receive
 		if(this.state.quizQuestions !== prevState.quizQuestions){
 			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
 			this.setState({
@@ -94,6 +140,7 @@ class Quiz extends Component{
 			})
 		}
 
+		// when the curren question are update
 		if(this.state.questionNumber !== prevState.questionNumber){
 			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
 			this.setState({
@@ -101,9 +148,15 @@ class Quiz extends Component{
 					question,
 					options,
 				},
-
+				
+				userAnswer: "",
 				disabled: true
 			})
+		}
+
+		// when the pseudo authentification are receive
+		if(this.props.userData.pseudo){
+			this.showWelcomeNotification(this.props.userData.pseudo)
 		}
 	}
 
@@ -121,7 +174,7 @@ class Quiz extends Component{
 		})
 		return (
 			<div>
-				<h2>{ pseudo }</h2>
+				<h2>Nom: { pseudo }</h2>
 				<Level level={this.levelName[quizLevel]} />
 				<ProgressBar questionNumber={questionNumber + 1} />
 

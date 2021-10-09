@@ -4,6 +4,8 @@ import App from './components/App/index';
 import reportWebVitals from './reportWebVitals';
 import Firebase, { FirebaseContext } from './components/Firebase';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>  
     <App />                                           

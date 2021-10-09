@@ -3,7 +3,7 @@ import React from 'react'
 const Level = ({ level }) => {
 	return (
 		<div className="levelsContainer">
-			<h2 className="headingLevels">{ level }</h2>
+			<h2 className="headingLevels">Niveau: { level }</h2>
 		</div>
 	)
 }

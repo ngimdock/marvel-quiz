@@ -186,7 +186,6 @@ class Quiz extends Component{
 		return ! quizLevelEnd ? (
 			<QuizLevelOver
 				ref={ this.quizQuestionsRef }
-				toto="toto"
 			 />
 		) : (
 			<div>

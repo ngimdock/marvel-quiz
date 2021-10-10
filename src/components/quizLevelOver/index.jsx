@@ -1,8 +1,24 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 
 const QuizLevelOver = React.forwardRef((props, ref) => {
-	console.log(props)
-	console.log(ref)
+	const [quizData, setQuizData] = useState([])
+
+	useEffect(() => {
+		setQuizData(ref.current)
+	}, [ref])
+
+	// display question and corresponding answer row
+	const displayQuestionAnswer = quizData.map(obj => {
+		return(
+			<tr key={ obj.id }>
+				<td>{obj.question}</td>
+				<td>{obj.answer}</td>
+				<td className="">
+					<button className="btnInfo">Infon</button>	
+				</td>
+			</tr>
+		)
+	})
 
 	return (
 		<Fragment>
@@ -25,15 +41,15 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			<div className="answerContainer">
 				<table className="answers">
 					<thead>
-						<th>Questions</th>
-						<th>Reponses</th>
-						<th>Infos</th>
+						<tr>
+							<th>Question</th>
+							<th>Reponces</th>
+							<th>Info</th>
+						</tr>
 					</thead>
-
+				
 					<tbody>
-						{
-
-						}
+						{ displayQuestionAnswer }
 					</tbody>
 				</table>
 			</div>

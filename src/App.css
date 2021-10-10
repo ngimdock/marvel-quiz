@@ -631,8 +631,8 @@ input:checked+.slider:before {
 }
 
 .btnInfo {
-  background-color: var(--dark-red-color);
-  border: 2px solid var(--dark-red-color);
+  background-color: var(--light-green-color);
+  border: 2px solid var(--light-green-color);
   color: var(--white-color);
   text-transform: uppercase;
   border-radius: 4px;
@@ -641,12 +641,11 @@ input:checked+.slider:before {
   padding: 9px;
   width: 100%;
   font-size: 15px;
+  opacity: .7;
 }
 
 .btnInfo:hover {
-  background-color: var(--red-color);
-  border: 2px solid var(--red-color);
-  color: var(--white-color);
+  opacity: 1;
 }
 /* END QUIZOVER */
 

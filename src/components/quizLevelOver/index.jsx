@@ -28,20 +28,21 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 	if(score >= average){  //s'il a eu la moyenne
 		decision = (
 			<Fragment>
+				<div className="stepsBtnContainer">
 				{
 					quizLevel < levelName.length ? (
-						<div className="stepsBtnContainer">
+						<>
 							<p className="successMsg">Bravo, passez au niveau suivant !</p>
 							<button className="btnResult success">Niveau suivant</button>
-						</div>
+						</>
 					) : (
-						<div className="stepsBtnContainer">
+						<>
 							<p className="successMsg">Bravo, vous etes un expert de marvel</p>
-							<button className="btnResult success">Acceuil</button>
-						</div>
+							<button className="btnResult gameOver">Acceuil</button>
+						</>
 					)
 				}
-				
+				</div>
 				<div className="percentage">
 					<div className="progressPercent">
 						Reussite { `${percent}%` }
@@ -53,21 +54,44 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			</Fragment>	
 		)
 	}else{
+		decision = (
+			<Fragment>
+				<div className="stepsBtnContainer">
+					<p className="failureMsg">echoue, vous devez gagner ce niveau avant de passer au niveau suivant !</p>
+				</div>
 
+				<div className="percentage">
+					<div className="progressPercent">
+						Reussite { `${percent}%` }
+					</div>
+					<div className="progressPercent">
+						Note: { `${score}/${maxQuestion}` }
+					</div>
+				</div>
+			</Fragment>
+		)
 	}
 
 	// jsx data
-	const displayQuestionAnswer = quizData.map(obj => {
-		return(
-			<tr key={ obj.id }>
-				<td>{obj.question}</td>
-				<td>{obj.answer}</td>
-				<td className="">
-					<button className="btnInfo">Infon</button>	
-				</td>
-			</tr>
-		)
-	})
+	const displayQuestionAnswer = score > average ? (
+		quizData.map(obj => {
+			return(
+				<tr key={ obj.id }>
+					<td>{obj.question}</td>
+					<td>{obj.answer}</td>
+					<td className="">
+						<button className="btnInfo">Infon</button>	
+					</td>
+				</tr>
+			)
+		})
+	) : (
+		<tr>
+			<td colSpan="3" style={{textAlign: "center"}}>
+				Les reponces s4afficherons lors que vous aurez valide le quiz de ce niveaus
+			</td>
+		</tr>
+	)
 
 	return (
 		<Fragment>

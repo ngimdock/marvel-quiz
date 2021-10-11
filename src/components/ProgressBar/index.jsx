@@ -10,9 +10,7 @@ const ProgressBar = ({ questionNumber, maxQuestion }) => {
 	}
 
 	const progression  = getPercentage(maxQuestion, currentQuestion)
-
-	console.log(progression)
-
+	
 	return (
 		<>
 			<div className="percentage">

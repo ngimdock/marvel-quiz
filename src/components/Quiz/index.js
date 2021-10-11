@@ -28,7 +28,8 @@ class Quiz extends Component{
 			disabled: true,
 
 			showWelcomeMsg: true,
-			quizLevelEnd: false
+			quizLevelEnd: false,
+			percent: 0
 		}
 
 		//references
@@ -52,11 +53,6 @@ class Quiz extends Component{
 
 		//modification de la question ou du level courant
 		if(this.state.questionNumber === this.state.maxQuestion -1){
-			if(this.state.quizLevel < this.levelName.length){
-				this.setState(prevState => ({
-					quizLevel: prevState.quizLevel + 1
-				}))
-			}
 
 			this.gameLevelOver()
 		}else{
@@ -93,10 +89,23 @@ class Quiz extends Component{
 		})
 	}
 
+	// percentage of game
+	getPercentage = (maxQuestion, score) => (score/maxQuestion)*100
+
 	gameLevelOver = () => {
-		this.setState({
-			quizLevelEnd: true
-		})
+		let greadPercent = this.getPercentage(this.state.maxQuestion, this.state.score)
+		if(greadPercent <= 50){
+			this.setState({
+				quizLevel: this.state.quizLevel + 1,
+				percent: greadPercent,
+				quizLevelEnd: true
+			})
+		}else{
+			this.setState({
+				percent: greadPercent,
+				quizLevelEnd: true
+			})
+		}
 	}
 
 	// display the welcome notification
@@ -172,7 +181,16 @@ class Quiz extends Component{
 
 	render(){
 		const {  pseudo } = this.props.userData
-		const { currentInterogation, disabled, userAnswer, questionNumber, quizLevel, maxQuestion, quizLevelEnd} = this.state
+		const { currentInterogation, 
+				disabled, 
+				userAnswer, 
+				questionNumber, 
+				quizLevel, 
+				maxQuestion, 
+				quizLevelEnd, 
+				score
+			} = this.state
+
 		const optionsList = currentInterogation.options.map((option, index) => {
 			return (
 				<p key={index} 
@@ -183,9 +201,14 @@ class Quiz extends Component{
 			)
 		})
 
-		return ! quizLevelEnd ? (
+		return  quizLevelEnd ? (
 			<QuizLevelOver
 				ref={ this.quizQuestionsRef }
+				levelName={this.levelName}
+				maxQuestion={ maxQuestion }
+				score={ score }
+				quizLevel={this.state.quizLevel}
+				percentage={this.state.percent}
 			 />
 		) : (
 			<div>

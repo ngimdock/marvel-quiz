@@ -92,9 +92,11 @@ class Quiz extends Component{
 	// percentage of game
 	getPercentage = (maxQuestion, score) => (score/maxQuestion)*100
 
+	// when a specific level is completed
 	gameLevelOver = () => {
 		let greadPercent = this.getPercentage(this.state.maxQuestion, this.state.score)
-		if(greadPercent <= 50){
+
+		if(greadPercent <= 50){ // if the player has the average
 			this.setState({
 				quizLevel: this.state.quizLevel + 1,
 				percent: greadPercent,
@@ -106,6 +108,10 @@ class Quiz extends Component{
 				quizLevelEnd: true
 			})
 		}
+	}
+
+	loadLevelQuestion = (param) => {
+		console.log("helloa")
 	}
 
 	// display the welcome notification
@@ -174,7 +180,7 @@ class Quiz extends Component{
 		}
 
 		// when the pseudo authentification are receive
-		if(this.props.userData.pseudo){
+		if(this.props.userData.pseudo !== prevProps.userData.pseudo){
 			this.showWelcomeNotification(this.props.userData.pseudo)
 		}
 	}
@@ -209,6 +215,7 @@ class Quiz extends Component{
 				score={ score }
 				quizLevel={this.state.quizLevel}
 				percentage={this.state.percent}
+				loadLevelQuestion = { this.loadLevelQuestion }
 			 />
 		) : (
 			<div>

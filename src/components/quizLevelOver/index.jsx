@@ -7,10 +7,10 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			maxQuestion, 
 			score,
 			quizLevel,
-			percentage
+			percentage,
+			loadLevelQuestion
 		} = props
 
-	console.log(maxQuestion, score)
 	const [quizData, setQuizData] = useState([])
 
 	useEffect(() => {
@@ -33,12 +33,22 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 					quizLevel < levelName.length ? (
 						<>
 							<p className="successMsg">Bravo, passez au niveau suivant !</p>
-							<button className="btnResult success">Niveau suivant</button>
+							<button 
+								className="btnResult success"
+								onClick={ () => loadLevelQuestion(quizLevel) }
+							>
+								Niveau suivant
+							</button>
 						</>
 					) : (
 						<>
 							<p className="successMsg">Bravo, vous etes un expert de marvel</p>
-							<button className="btnResult gameOver">Acceuil</button>
+							<button 
+								className="btnResult gameOver"
+								onClick={ () => loadLevelQuestion(0) }
+							>
+								Acceuil
+							</button>
 						</>
 					)
 				}
@@ -88,7 +98,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 	) : (
 		<tr>
 			<td colSpan="3" style={{textAlign: "center"}}>
-				Les reponces s4afficherons lors que vous aurez valide le quiz de ce niveaus
+				Les reponces s'afficherons lors que vous aurez valide le quiz de ce niveaux
 			</td>
 		</tr>
 	)

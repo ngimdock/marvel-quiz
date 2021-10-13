@@ -26,6 +26,7 @@ const Level = ({ levelName, quizLevel }) => {
 	      	barStyle={"dashed"}
 	      	defaultBarColor={"#757575"}
 	      	completeBarColor={"#757575"}
+	      	circleFontSize={20}
 	      />
 		</div>
 	)

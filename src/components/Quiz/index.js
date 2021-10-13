@@ -40,7 +40,7 @@ class Quiz extends Component{
 		this.handleSelectAnswer = this.handleSelectAnswer.bind(this)
 	}
 
-	levelName = ["debutant", "confirme", "expert"]
+	levelName = ["debutant", "confirme", "expert"] 
 
 	//handler
 	handleSelectAnswer = (selectOption) => {
@@ -232,7 +232,10 @@ class Quiz extends Component{
 		) : (
 			<div>
 				<h2>Nom: { pseudo }</h2>
-				<Level level={this.levelName[quizLevel]} />
+				<Level
+					levelName={this.levelName}
+					quizLevel={this.state.quizLevel}
+				 />
 				<ProgressBar 
 					questionNumber={questionNumber}
 					maxQuestion={maxQuestion}

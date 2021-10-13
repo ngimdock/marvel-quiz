@@ -17,9 +17,15 @@ const Level = ({ levelName, quizLevel }) => {
 	      <Stepper 
 	      	steps={ quizStaps } 
 	      	activeStep={ quizLevel }
+	      	size={45}
 	      	circleTop={0}
 	      	activeColor={"#EB1D27"}
-	      	completeColor={"#EB1D27"}
+	      	completeColor={"#E0E0E0"}
+	      	activeTitleColor={"#EB1D27"}
+	      	completeTitleColor={"#757575"}
+	      	barStyle={"dashed"}
+	      	defaultBarColor={"#757575"}
+	      	completeBarColor={"#757575"}
 	      />
 		</div>
 	)

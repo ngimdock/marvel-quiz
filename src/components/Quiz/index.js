@@ -96,7 +96,9 @@ class Quiz extends Component{
 	gameLevelOver = () => {
 		let greadPercent = this.getPercentage(this.state.maxQuestion, this.state.score)
 
-		if(greadPercent <= 50){ // if the player has the average
+		console.log(greadPercent)
+
+		if(greadPercent >= 50){ // if the player has the average
 			this.setState({
 				quizLevel: this.state.quizLevel + 1,
 				percent: greadPercent,
@@ -112,6 +114,16 @@ class Quiz extends Component{
 
 	loadLevelQuestion = (param) => {
 		console.log("helloa")
+		if(this.state.quizLevel < this.levelName.length){
+			this.setState({
+				questionNumber: 0,
+				score: 0,
+				userAnswer: '',
+				quizLevelEnd: false
+			})
+		}else{
+			//nothin for the moment
+		}
 	}
 
 	// display the welcome notification
@@ -177,6 +189,10 @@ class Quiz extends Component{
 				userAnswer: "",
 				disabled: true
 			})
+		}
+
+		if(this.state.quizLevel !== prevState.quizLevel){
+			this.fetchQuestions(this.levelName[this.state.quizLevel])
 		}
 
 		// when the pseudo authentification are receive

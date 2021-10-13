@@ -13,7 +13,7 @@ class Quiz extends Component{
 	constructor(props){
 		super(props)
 
-		this.state = {
+		this.initialState = {
 			quizLevel: 0,
 			quizQuestions: [],
 
@@ -31,6 +31,8 @@ class Quiz extends Component{
 			quizLevelEnd: false,
 			percent: 0
 		}
+
+		this.state = this.initialState
 
 		//references
 		this.quizQuestionsRef = createRef()
@@ -112,18 +114,16 @@ class Quiz extends Component{
 		}
 	}
 
-	loadLevelQuestion = (param) => {
-		console.log("helloa")
-		if(this.state.quizLevel < this.levelName.length){
-			this.setState({
-				questionNumber: 0,
-				score: 0,
-				userAnswer: '',
-				quizLevelEnd: false
-			})
-		}else{
-			//nothin for the moment
-		}
+	// this function fetch new level questions
+	loadLevelQuestion = (level) => {
+		// we reset the state to initial state and 
+		// change the game level
+		this.setState({
+			...this.initialState,
+			quizLevel: level
+		})
+
+		this.fetchQuestions(this.levelName[level]) //fetch
 	}
 
 	// display the welcome notification
@@ -166,8 +166,8 @@ class Quiz extends Component{
 
 	componentDidUpdate = (prevProps, prevState) => {
 
-		// when the quiz question are receive
-		if(this.state.quizQuestions !== prevState.quizQuestions){
+		// when the quiz questions are receive and array in not empty
+		if((this.state.quizQuestions !== prevState.quizQuestions) && this.state.quizQuestions.length){
 			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
 			this.setState({
 				currentInterogation: {
@@ -178,7 +178,7 @@ class Quiz extends Component{
 		}
 
 		// when the curren question are update
-		if(this.state.questionNumber !== prevState.questionNumber){
+		if((this.state.questionNumber !== prevState.questionNumber) && this.state.quizQuestions.length){
 			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
 			this.setState({
 				currentInterogation: {
@@ -189,10 +189,6 @@ class Quiz extends Component{
 				userAnswer: "",
 				disabled: true
 			})
-		}
-
-		if(this.state.quizLevel !== prevState.quizLevel){
-			this.fetchQuestions(this.levelName[this.state.quizLevel])
 		}
 
 		// when the pseudo authentification are receive

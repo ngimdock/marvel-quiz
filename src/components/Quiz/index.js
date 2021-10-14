@@ -167,9 +167,14 @@ class Quiz extends Component{
 
 	componentDidUpdate = (prevProps, prevState) => {
 
+		const {
+			quizQuestions,
+			questionNumber
+		} = this.state
+
 		// when the quiz questions are receive and array in not empty
-		if((this.state.quizQuestions !== prevState.quizQuestions) && this.state.quizQuestions.length){
-			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
+		if((quizQuestions !== prevState.quizQuestions) && quizQuestions.length){
+			const { question, options } = quizQuestions[questionNumber]
 			this.setState({
 				currentInterogation: {
 					question,
@@ -179,8 +184,8 @@ class Quiz extends Component{
 		}
 
 		// when the curren question are update
-		if((this.state.questionNumber !== prevState.questionNumber) && this.state.quizQuestions.length){
-			const { question, options } = this.state.quizQuestions[this.state.questionNumber]
+		if((questionNumber !== prevState.questionNumber) && quizQuestions.length){
+			const { question, options } = quizQuestions[questionNumber]
 			this.setState({
 				currentInterogation: {
 					question,

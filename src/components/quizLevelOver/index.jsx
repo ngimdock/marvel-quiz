@@ -3,6 +3,8 @@ import { GrTrophy } from 'react-icons/gr'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 import { GiTrophyCup } from 'react-icons/gi'
 
+import Loader from '../Loader'
+
 const QuizLevelOver = React.forwardRef((props, ref) => {
 
 	const { 
@@ -114,9 +116,8 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 		})
 	) : (
 		<tr>
-			<td colSpan="3" style={{textAlign: "center"}}>
-				Les reponces s'afficherons lors que vous aurez valide le quiz de ce niveaux
-				<div className="loader"></div>
+			<td colSpan="3">
+				<Loader loaderMsg="Authentification..." colorText="red" />
 			</td>
 		</tr>
 	)

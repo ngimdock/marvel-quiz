@@ -1,4 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import { GrTrophy } from 'react-icons/gr'
+import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
+import { GiTrophyCup } from 'react-icons/gi'
 
 const QuizLevelOver = React.forwardRef((props, ref) => {
 
@@ -36,7 +39,9 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 				{
 					quizLevel < levelName.length ? (
 						<>
-							<p className="successMsg">Bravo, passez au niveau suivant !</p>
+							<p className="successMsg">
+								Bravo, passez au niveau suivant ! <HiOutlineChevronDoubleRight />
+							</p>
 							<button 
 								className="btnResult success"
 								onClick={ () => loadLevelQuestion(quizLevel) }
@@ -46,7 +51,8 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 						</>
 					) : (
 						<>
-							<p className="successMsg">Bravo, vous etes un expert de marvel</p>
+							<p className="successMsg"> <GiTrophyCup size="3rem" color= "#07bc0c" /> Bravo, vous etes un expert de marvel</p>
+
 							<button 
 								className="btnResult gameOver"
 								onClick={ () => loadLevelQuestion(0) }

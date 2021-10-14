@@ -7,6 +7,8 @@ import {
   Link
 } from "react-router-dom";
 
+import { IconContext } from "react-icons"; // le context des icones 
+
 import Header from '../Header/';
 import Landing from '../Landing/';
 import Footer from '../Footer/';
@@ -23,19 +25,21 @@ function App() {
 
     <Router>
 
-      <Header />
+      <IconContext.Provider value={{ className: "react-icons", style: {verticalAlign: "middle" } }}> {/* context provider for icons */}
+        <Header />
 
-      <Switch>
-          <Route path="/" exact component={Landing} />
-          <Route path="/welcome" component={Welcome} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/forgetpassword" component={ForgetPassword} />
+        <Switch>
+            <Route path="/" exact component={Landing} />
+            <Route path="/welcome" component={Welcome} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/forgetpassword" component={ForgetPassword} />
 
-          <Route component={ErrorPage} />
-      </Switch>
+            <Route component={ErrorPage} />
+        </Switch>
 
-      <Footer />
+        <Footer />
+      </IconContext.Provider>
 
     </Router>
   );

@@ -5,6 +5,7 @@ import QUIZ_QUESTIONS from '../../quizData/questions'
 import Level from '../Level'
 import ProgressBar from '../ProgressBar'
 import QuizLevelOver from '../quizLevelOver'
+import { FaChevronRight } from 'react-icons/fa';
 
 toast.configure() // display de welcome notification
 
@@ -132,7 +133,7 @@ class Quiz extends Component{
 		if(this.state.showWelcomeMsg){
 			toast(`🙂 Bienvenu ${pseudo} et bonne chance`, {
 				position: "top-right",
-				autoClose: 2200,
+				autoClose: 3000,
 				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
@@ -214,7 +215,7 @@ class Quiz extends Component{
 				<p key={index} 
 					className={`answerOptions ${ userAnswer === option && "selected" }` }
 					onClick={() => this.handleSelectAnswer(option)} >
-					{ option }
+					<FaChevronRight />{ option }
 				</p>
 			)
 		})

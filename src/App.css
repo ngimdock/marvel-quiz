@@ -552,6 +552,8 @@ input:checked+.slider:before {
   color: var(--light-green-color);
   font-weight: bold;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
 }
 
 .failureMsg {
@@ -815,6 +817,11 @@ input:checked+.slider:before {
   background: white;
   color: red;
   border: 1px solid red;
+}
+
+.react-icons{
+  margin: auto .4rem;
+  vertical-align: "middle";
 }
 
 

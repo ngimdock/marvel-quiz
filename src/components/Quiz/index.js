@@ -9,39 +9,39 @@ import { FaChevronRight } from 'react-icons/fa';
 
 toast.configure() // display de welcome notification
 
+const initialState = {
+	quizLevel: 0,
+	quizQuestions: [],
+
+	questionNumber: 0,
+	maxQuestion: 10,
+	currentInterogation: {
+		question: "",
+		options: []
+	},
+	userAnswer: "",
+	score: 0,
+	disabled: true,
+
+	showWelcomeMsg: true,
+	quizLevelEnd: false,
+	percent: 0
+}
+
+const levelName = ["debutant", "confirme", "expert"]
+
 class Quiz extends Component{
 
 	constructor(props){
 		super(props)
 
-		this.initialState = {
-			quizLevel: 0,
-			quizQuestions: [],
-
-			questionNumber: 0,
-			maxQuestion: 10,
-			currentInterogation: {
-				question: "",
-				options: []
-			},
-			userAnswer: "",
-			score: 0,
-			disabled: true,
-
-			showWelcomeMsg: true,
-			quizLevelEnd: false,
-			percent: 0
-		}
-
-		this.state = this.initialState
+		this.state = initialState
 
 		//references
 		this.quizQuestionsRef = createRef()
 
 		this.handleSelectAnswer = this.handleSelectAnswer.bind(this)
 	}
-
-	levelName = ["debutant", "confirme", "expert"] 
 
 	//handler
 	handleSelectAnswer = (selectOption) => {
@@ -120,11 +120,11 @@ class Quiz extends Component{
 		// we reset the state to initial state and 
 		// change the game level
 		this.setState({
-			...this.initialState,
+			...initialState,
 			quizLevel: level
 		})
 
-		this.fetchQuestions(this.levelName[level]) //fetch
+		this.fetchQuestions(levelName[level]) //fetch
 	}
 
 	// display the welcome notification
@@ -162,7 +162,7 @@ class Quiz extends Component{
 	
 	//live cycle methods
 	componentDidMount = () => {
-		this.fetchQuestions(this.levelName[this.state.quizLevel])
+		this.fetchQuestions(levelName[this.state.quizLevel])
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -207,7 +207,8 @@ class Quiz extends Component{
 				quizLevel, 
 				maxQuestion, 
 				quizLevelEnd, 
-				score
+				score,
+				percent
 			} = this.state
 
 		const optionsList = currentInterogation.options.map((option, index) => {
@@ -223,19 +224,19 @@ class Quiz extends Component{
 		return  quizLevelEnd ? (
 			<QuizLevelOver
 				ref={ this.quizQuestionsRef }
-				levelName={this.levelName}
+				levelName={levelName}
 				maxQuestion={ maxQuestion }
 				score={ score }
-				quizLevel={this.state.quizLevel}
-				percentage={this.state.percent}
+				quizLevel={quizLevel}
+				percentage={percent}
 				loadLevelQuestion = { this.loadLevelQuestion }
 			 />
 		) : (
 			<div>
 				<h2>Nom: { pseudo }</h2>
 				<Level
-					levelName={this.levelName}
-					quizLevel={this.state.quizLevel}
+					levelName={levelName}
+					quizLevel={quizLevel}
 				 />
 				<ProgressBar 
 					questionNumber={questionNumber}

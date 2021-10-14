@@ -109,7 +109,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 					<td>{obj.question}</td>
 					<td>{obj.answer}</td>
 					<td className="">
-						<button className="btnInfo">Infon</button>	
+						<button className="btnInfo">Info</button>	
 					</td>
 				</tr>
 			)

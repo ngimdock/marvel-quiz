@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { GrTrophy } from 'react-icons/gr'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 import { GiTrophyCup } from 'react-icons/gi'
+import { Modal } from '../Modal/Modal'
 
 import Loader from '../Loader'
 
@@ -16,12 +17,26 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			loadLevelQuestion
 		} = props
 
+	// state variable
 	const [quizData, setQuizData] = useState([])
+	const [ showModal, setSowModal ] = useState(false)
 
+	//handler
+	const handleShowModal = id => {
+		setSowModal(true)
+	}
+
+	const handleHideModal = () => {
+		setSowModal(false)
+	}
+
+	//useEffect
 	useEffect(() => {
 		setQuizData(ref.current)
 	}, [ref])
 
+
+	//functions
 	const getPercentage = (maxQuestion, score) => (score/maxQuestion)*100
 
 	const percent = getPercentage(maxQuestion, score)
@@ -109,7 +124,12 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 					<td>{obj.question}</td>
 					<td>{obj.answer}</td>
 					<td className="">
-						<button className="btnInfo">Info</button>	
+						<button 
+						className="btnInfo"
+						onClick={() => handleShowModal(obj.heroId)}
+						>
+							Info
+						</button>	
 					</td>
 				</tr>
 			)
@@ -144,6 +164,20 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 					</tbody>
 				</table>
 			</div>
+
+			<Modal show={showModal} hideModal={handleHideModal}>
+				<div>
+					<h2>Titre de la modal</h2>
+					<hr />
+				</div>
+				<div>
+					<h2>corp du modal</h2>
+					<hr />
+				</div>
+				<div>
+					<button onClick={handleHideModal}>Fermer</button>
+				</div>
+			</Modal>
 		</Fragment>
 	)
 })

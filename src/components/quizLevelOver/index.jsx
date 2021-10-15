@@ -179,8 +179,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			</Modal>
 		</Fragment>
 	)
-})
 
- 
+})
 
 export default React.memo(QuizLevelOver)

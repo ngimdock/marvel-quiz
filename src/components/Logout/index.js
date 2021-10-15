@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { FirebaseContext } from '../Firebase/index';
+import ReactTooltip from 'react-tooltip';
 
 const Logout = () => {
 
@@ -21,16 +22,23 @@ const Logout = () => {
 	};
 
 	return (
-		<div className="logoutContainer" id="logoutContent">
-			<label className="switch">
-				<input 
-					type="checkbox"
-					checked={checked}
-					onChange = { handleChange }
-				/>
-				<span className="slider round"></span>
-			</label>
-		</div>
+		<Fragment>
+			
+			<div className="logoutContainer" id="logoutContent" >
+				<label className="switch">
+					<input 
+						type="checkbox"
+						checked={checked}
+						onChange = { handleChange }
+					/>
+					<span className="slider round" data-tip="Deconnexion"></span>
+				</label>
+				<ReactTooltip
+					place = "left"
+					effect = "solid" 
+				/> {/* Decoonnexion tooltip */}
+			</div>
+		</Fragment>
 	);
 };
 

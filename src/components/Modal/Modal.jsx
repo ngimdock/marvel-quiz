@@ -3,8 +3,10 @@ import React from 'react'
 const Modal = ({ show, hideModal, children }) => {
 
 	return show && (
-		<div onClick={hideModal}>
-			{ children }
+		<div className="modalBackground" onClick={hideModal}>
+			<div className="modalContainer">
+				{ children }
+			</div>
 		</div>
 	)
 }

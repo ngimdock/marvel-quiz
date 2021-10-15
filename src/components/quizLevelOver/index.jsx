@@ -24,6 +24,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 	//handler
 	const handleShowModal = id => {
 		setSowModal(true)
+		console.log(id)
 	}
 
 	const handleHideModal = () => {
@@ -166,16 +167,14 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			</div>
 
 			<Modal show={showModal} hideModal={handleHideModal}>
-				<div>
+				<div className="modalHeader">
 					<h2>Titre de la modal</h2>
-					<hr />
 				</div>
-				<div>
-					<h2>corp du modal</h2>
-					<hr />
+				<div className="modalBody">
+					corps de la modal
 				</div>
-				<div>
-					<button onClick={handleHideModal}>Fermer</button>
+				<div className="modalFooter">
+					<button onClick={handleHideModal} className="modalBtn">Fermer</button>
 				</div>
 			</Modal>
 		</Fragment>

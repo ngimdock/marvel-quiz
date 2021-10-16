@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import axios from 'axios'
 import { GrTrophy } from 'react-icons/gr'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 import { GiTrophyCup } from 'react-icons/gi'
 import { Modal } from '../Modal/Modal'
-
 import Loader from '../Loader'
 
 const QuizLevelOver = React.forwardRef((props, ref) => {
@@ -17,26 +17,36 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			loadLevelQuestion
 		} = props
 
-	const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY
-	const hash = "ddb8c45452135169f0ea7d52d5100507"
+	const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY //get my public for .env file
+	const hash = "ddb8c45452135169f0ea7d52d5100507" //md5 hash code
 
-	console.log(API_PUBLIC_KEY)
 
 	// state variable
 	const [quizData, setQuizData] = useState([])
 	const [ showModal, setSowModal ] = useState(false)
+	const [characterData, setCharacterData] = useState([])
+	const [isCharacterLoading, setIsCharacterLoading] = useState(true)
 
 	//handler
 	const handleShowModal = id => {
 		setSowModal(true)
-		console.log(id)
+		
+		axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+		.then(response => {
+			setCharacterData(response.data.data.results)
+			console.log(response)
+			setIsCharacterLoading(false)
+		})
+		.catch(err => {
+			console.log(err)
+		})
 	}
 
 	const handleHideModal = () => {
 		setSowModal(false)
 	}
 
-	//useEffect
+	//side effects
 	useEffect(() => {
 		setQuizData(ref.current)
 	}, [ref])
@@ -122,7 +132,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 		)
 	}
 
-	// jsx data
+	// jsx data logic
 	const displayQuestionAnswer = score > average ? (
 		quizData.map(obj => {
 			return(
@@ -146,6 +156,25 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 				<Loader loaderMsg="Authentification..." colorText="red" />
 			</td>
 		</tr>
+	)
+
+	const characterInfo = isCharacterLoading ? (
+		<Loader />
+	) : (
+		<Fragment>
+			<div className="modalHeader">
+				<h2>Informations sur { characterData[0].name }</h2>
+			</div>
+			<div className="modalBody">
+				<p>
+					plus d'informations? visitez 
+					<a target="_blank" href={characterData[0].urls[0].url}>ce site</a>
+				</p>
+			</div>
+			<div className="modalFooter">
+				<button onClick={handleHideModal} className="modalBtn">Fermer</button>
+			</div>
+		</Fragment>
 	)
 
 	return (
@@ -172,15 +201,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			</div>
 
 			<Modal show={showModal} hideModal={handleHideModal}>
-				<div className="modalHeader">
-					<h2>Titre de la modal</h2>
-				</div>
-				<div className="modalBody">
-					corps de la modal
-				</div>
-				<div className="modalFooter">
-					<button onClick={handleHideModal} className="modalBtn">Fermer</button>
-				</div>
+				{ characterInfo }
 			</Modal>
 		</Fragment>
 	)
@@ -188,3 +209,4 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 })
 
 export default React.memo(QuizLevelOver)
+

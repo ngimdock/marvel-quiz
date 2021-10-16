@@ -17,6 +17,11 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			loadLevelQuestion
 		} = props
 
+	const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_KEY
+	const hash = "ddb8c45452135169f0ea7d52d5100507"
+
+	console.log(API_PUBLIC_KEY)
+
 	// state variable
 	const [quizData, setQuizData] = useState([])
 	const [ showModal, setSowModal ] = useState(false)

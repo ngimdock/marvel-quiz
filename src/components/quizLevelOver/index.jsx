@@ -66,10 +66,28 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 	//side effects
 	useEffect(() => {
 		setQuizData(ref.current)
+
+		if(localStorage.getItem("characterStorageDate")){
+			const date = localStorage.getItem("characterStorageDate")
+			checkDataAge(date)
+		}
 	}, [ref])
 
 
 	//functions
+
+	const checkDataAge = (date) => {
+		const today = Date.now()
+		const timeDifference = today - date
+
+		const dayDifference = timeDifference / (1000*3600*24)
+
+		if(dayDifference > 15){
+			localStorage.clear()
+			localStorage.setItem("characterStorageDate", Date.now())
+		}
+	}
+
 	const getPercentage = (maxQuestion, score) => (score/maxQuestion)*100
 
 	const percent = getPercentage(maxQuestion, score)

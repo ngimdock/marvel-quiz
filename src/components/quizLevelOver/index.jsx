@@ -26,6 +26,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 	const [ showModal, setSowModal ] = useState(false)
 	const [characterData, setCharacterData] = useState([])
 	const [isCharacterLoading, setIsCharacterLoading] = useState(true)
+	const [characterError, setCharacterError] = useState(null)
 
 	//handler
 	const handleShowModal = id => {
@@ -33,12 +34,12 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 		
 		axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
 		.then(response => {
-			setCharacterData(response.data.data.results)
+			setCharacterData(response.data)
 			console.log(response)
 			setIsCharacterLoading(false)
 		})
 		.catch(err => {
-			console.log(err)
+			setCharacterError(err)
 		})
 	}
 
@@ -132,7 +133,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 		)
 	}
 
-	// jsx data logic
+	// JSX LOGIC
 	const displayQuestionAnswer = score > average ? (
 		quizData.map(obj => {
 			return(
@@ -158,24 +159,44 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 		</tr>
 	)
 
-	const characterInfo = isCharacterLoading ? (
-		<Loader />
-	) : (
-		<Fragment>
-			<div className="modalHeader">
-				<h2>Informations sur { characterData[0].name }</h2>
-			</div>
-			<div className="modalBody">
-				<p>
-					plus d'informations? visitez 
-					<a target="_blank" href={characterData[0].urls[0].url}>ce site</a>
-				</p>
-			</div>
-			<div className="modalFooter">
-				<button onClick={handleHideModal} className="modalBtn">Fermer</button>
-			</div>
-		</Fragment>
-	)
+	// modal jsx
+	let characterNode = null
+
+	if(isCharacterLoading){
+		characterNode = (
+			<Fragment>
+				<div className="modalHeader">
+					<h2>Loading marvel information...</h2>
+				</div>
+				<div className="modalBody">
+					<Loader />
+				</div>
+				<div className="modalFooter">
+					<button onClick={handleHideModal} className="modalBtn">Fermer</button>
+				</div>
+			</Fragment>
+		)
+	}else{
+		characterNode = characterError ? (
+			<p>{characterError.message}</p>
+		) : (
+			<Fragment>
+				<div className="modalHeader">
+					<h2>{ characterData.data.results[0].name }</h2>
+				</div>
+				<div className="modalBody">
+					<p>
+						plus d'informations? visitez 
+						<a target="_blank" href={ characterData.data.results[0].urls[0].url }>ce site</a>
+					</p>
+				</div>
+				<div className="modalFooter">
+					<button onClick={handleHideModal} className="modalBtn">Fermer</button>
+				</div>
+			</Fragment>
+		)
+	}
+
 
 	return (
 		<Fragment>
@@ -201,7 +222,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			</div>
 
 			<Modal show={showModal} hideModal={handleHideModal}>
-				{ characterInfo }
+				{ characterNode }
 			</Modal>
 		</Fragment>
 	)

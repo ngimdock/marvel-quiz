@@ -43,7 +43,6 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 			.then(response => {
 				setCharacterData(response.data)
 				setIsCharacterLoading(false)
-				console.log(response.data)
 
 				localStorage.setItem(id, JSON.stringify(response.data))  //store character data in localStorage browser
 

@@ -31,20 +31,36 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 	//handler
 	const handleShowModal = id => {
 		setSowModal(true)
-		
-		axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
-		.then(response => {
-			setCharacterData(response.data)
-			console.log(response)
+
+		if(localStorage.getItem(id)){  //recherche dans le localstorage
+
+			setCharacterData(JSON.parse(localStorage.getItem(id)))
 			setIsCharacterLoading(false)
-		})
-		.catch(err => {
-			setCharacterError(err)
-		})
+
+		}else{
+
+			axios.get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+			.then(response => {
+				setCharacterData(response.data)
+				setIsCharacterLoading(false)
+				console.log(response.data)
+
+				localStorage.setItem(id, JSON.stringify(response.data))  //store character data in localStorage browser
+
+				if(!localStorage.getItem("characterStorageDate")){
+					localStorage.setItem("characterStorageDate", Date.now())  
+				}
+			})
+			.catch(err => {
+				setCharacterError(err)
+			})
+		}
+		
 	}
 
 	const handleHideModal = () => {
 		setSowModal(false)
+		setIsCharacterLoading(true)
 	}
 
 	//side effects

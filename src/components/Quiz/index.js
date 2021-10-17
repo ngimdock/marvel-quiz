@@ -1,5 +1,5 @@
 import React, {  Component, createRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import QUIZ_QUESTIONS from '../../quizData/questions'
 import Level from '../Level'
@@ -98,8 +98,6 @@ class Quiz extends Component{
 	// when a specific level is completed
 	gameLevelOver = () => {
 		let greadPercent = this.getPercentage(this.state.maxQuestion, this.state.score)
-
-		console.log(greadPercent)
 
 		if(greadPercent >= 50){ // if the player has the average
 			this.setState({

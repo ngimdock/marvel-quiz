@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import axios from 'axios'
-import { GrTrophy } from 'react-icons/gr'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 import { GiTrophyCup } from 'react-icons/gi'
 import { Modal } from '../Modal/Modal'
@@ -247,6 +246,7 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 										href={obj.url} 
 										key={index}
 										target="_blank"
+										rel="noreferrer"
 										>
 									{capitalizeFirstLetter(obj.type)}
 									</a>

@@ -87,6 +87,10 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 		}
 	}
 
+	const capitalizeFirstLetter = string => {
+		return string.charAt(0).toUpperCase() + string.slice(1)
+	}
+
 	const getPercentage = (maxQuestion, score) => (score/maxQuestion)*100
 
 	const percent = getPercentage(maxQuestion, score)
@@ -218,10 +222,38 @@ const QuizLevelOver = React.forwardRef((props, ref) => {
 					<h2>{ characterData.data.results[0].name }</h2>
 				</div>
 				<div className="modalBody">
-					<p>
-						plus d'informations? visitez 
-						<a target="_blank" href={ characterData.data.results[0].urls[0].url }>ce site</a>
-					</p>
+					<div className="comicImage">
+						<img 
+							src={ characterData.data.results[0].thumbnail.path + '.' + characterData.data.results[0].thumbnail.extension} 
+							alt={characterData.data.results[0].name} 
+						/>
+
+						<p>{characterData.attributionText}</p>
+					</div>
+					<div className="comicDetails">
+						<h3>Description</h3>
+						{
+							characterData.data.results[0].description ? 
+							<p>{ characterData.data.results[0].description }</p>
+							: <p>Description indisponible</p>
+						}
+
+						<h3>Plus d'infos</h3>
+						{
+							characterData.data.results[0].urls &&
+							characterData.data.results[0].urls.map((obj, index) => {
+								return (
+									<a 
+										href={obj.url} 
+										key={index}
+										target="_blank"
+										>
+									{capitalizeFirstLetter(obj.type)}
+									</a>
+								)
+							}) 
+						}
+					</div>
 				</div>
 				<div className="modalFooter">
 					<button onClick={handleHideModal} className="modalBtn">Fermer</button>

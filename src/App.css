@@ -824,6 +824,10 @@ input:checked+.slider:before {
   vertical-align: "middle";
 }
 
+.dan{
+  font-weight: 600;
+}
+
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 540px) {
